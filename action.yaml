@@ -23,6 +23,9 @@ inputs:
   custom_labels:
     description: 'A JSON string mapping task types to custom label names. Example: {"feat": "feature", "fix": "fix", "docs": "documentation", "test": "test", "ci": "CI/CD", "refactor": "refactor", "perf": "performance", "chore": "chore", "revert": "revert", "wip": "WIP"}'
     required: false
+  scopes:
+    description: 'Ah array if scipes to restrict to'
+    required: false
 runs:
   using: 'node20'
   main: 'dist/index.js'
