@@ -125,7 +125,7 @@ async function checkConventionalCommits() {
         return;
     }
     if (scopeList.length > 0) {
-        if (!scope.match(`^(${scopeList.join('|')})(:\s+.+)?$`)) {
+        if (!cc.scope.match(`^(${scopeList.join('|')})(:\s+.+)?$`)) {
             setFailed(`Invalid or missing scope: '${cc.scope}'. Must be one of: ${scopeList.join(', ')}`);
         }
     }
