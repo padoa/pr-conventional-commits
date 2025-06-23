@@ -249,17 +249,18 @@ async function applyScopeLabel(pr, commitDetail) {
     const octokit = getOctokit(getInput('token'));
     const currentLabelsResult = await githubApi.getCurrentLabelsResult(octokit, pr);
     const currentLabels = currentLabelsResult.data.map(label => label.name);
-    if (currentLabels.includes(scopeName)) {
-        return;
-    }
-    if (splitScopeLabel !== undefined && splitScopeLabel.toLowerCase() === 'true') {
+    if (splitScopeLabel !== undefined && splitScopeLabel.toLowerCase() !== 'false') {
         scopeNames = scopeName.split(splitScopeLabel).map(part => part.trim());
         scopeNames.forEach((name) => {
-            if (name) {
-                githubApi.createOrAddLabel(octokit, name, pr);
+            if (currentLabels.includes(scopeName)) {
+                return;
             }
+            githubApi.createOrAddLabel(octokit, name, pr);
         });
     } else {
+        if (currentLabels.includes(scopeName)) {
+            return;
+        }
         githubApi.createOrAddLabel(octokit, scopeName, pr)
     }
 }
