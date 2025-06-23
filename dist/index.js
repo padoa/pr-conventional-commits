@@ -240,6 +240,8 @@ function extractConventionalCommitData(title) {
 
 async function applyScopeLabel(pr, commitDetail) {
     const addLabelEnabled = getInput('add_scope_label');
+    const splitScopeLabel = getInput('split_scope_label');
+
     scopeName = commitDetail.scope;
     if (addLabelEnabled !== undefined && addLabelEnabled.toLowerCase() === 'false' || scopeName === undefined || scopeName === "") {
         return;
@@ -250,7 +252,16 @@ async function applyScopeLabel(pr, commitDetail) {
     if (currentLabels.includes(scopeName)) {
         return;
     }
-    githubApi.createOrAddLabel(octokit, scopeName, pr)
+    if (splitScopeLabel !== undefined && splitScopeLabel.toLowerCase() === 'true') {
+        scopeNames = scopeName.split(splitScopeLabel).map(part => part.trim());
+        scopeNames.forEach((name) => {
+            if (name) {
+                githubApi.createOrAddLabel(octokit, name, pr);
+            }
+        });
+    } else {
+        githubApi.createOrAddLabel(octokit, scopeName, pr)
+    }
 }
 
 /**

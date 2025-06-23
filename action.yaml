@@ -26,6 +26,10 @@ inputs:
   scopes:
     description: 'Ah array if scipes to restrict to'
     required: false
+  split_scope_label:
+    description: 'Whether to split the scope label into multiple labels based on the scope.'
+    required: false
+    default: 'false'
 runs:
   using: 'node20'
   main: 'dist/index.js'
